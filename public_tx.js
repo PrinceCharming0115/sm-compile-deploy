@@ -14,26 +14,30 @@ const checkSumStorageContractAbi = checkSumStorageContractJSON.abi;
 const checkSumStorageContractBinPath = path.resolve(__dirname, "ChecksumStorage.bin");
 const checkSumStorageContractBin = fs.readFileSync(checkSumStorageContractBinPath);
 
-const txnCount = await web3.eth.getTransactionCount(account.address);
+const deployContract = async () => {
+    const txnCount = await web3.eth.getTransactionCount(account.address);
 
-const rawTxOptions = {
-    nonce: web3.utils.numberToHex(txnCount),
-    from: account.address,
-    to: null,
-    value: "0x00",
-    data: "0x" + checkSumStorageContractBin,
-    gasPrice: "0x10",
-    gasLimit: "0x24A22"
-};
+    const rawTxOptions = {
+        nonce: web3.utils.numberToHex(txnCount),
+        from: account.address,
+        to: null,
+        value: "0x00",
+        data: "0x" + checkSumStorageContractBin,
+        gasPrice: "0x10",
+        gasLimit: "0x24A22"
+    };
 
-console.log('Creating transaction...');
-const tx = new Tx(rawTxOptions);
-console.log('Signing transaction...');
-tx.sign(privateKey);
-console.log('Sending transaction...');
-var serializedTx = tx.serialize();
-const pTx = await web3.eth.sendSignedTransaction(
-    "0x" + serializedTx.toString("hex").toString("hex")
-);
-console.log('tx transactionHash: ' + pTx.transactionHash);
-console.log('tx contractAddress: ', pTx.contractAddress);
+    console.log('Creating transaction...');
+    const tx = new Tx(rawTxOptions);
+    console.log('Signing transaction...');
+    tx.sign(privateKey);
+    console.log('Sending transaction...');
+    var serializedTx = tx.serialize();
+    const pTx = await web3.eth.sendSignedTransaction(
+        "0x" + serializedTx.toString("hex").toString("hex")
+    );
+    console.log('tx transactionHash: ' + pTx.transactionHash);
+    console.log('tx contractAddress: ', pTx.contractAddress);
+}
+
+deployContract().then(() => process.exit(0));
