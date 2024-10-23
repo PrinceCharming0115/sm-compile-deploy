@@ -1,4 +1,4 @@
-const { Web3 } = require('web3');
+const { Web3, Tx } = require('web3');
 const fs = require('fs');
 const path = require('path');
 
@@ -28,14 +28,17 @@ const deployContract = async () => {
     };
 
     console.log('Creating transaction...');
-    const tx = new Tx(rawTxOptions);
+    // const tx = new Tx(rawTxOptions);
+    const tx = {
+        chainId: 1197,
+        ...rawTxOptions
+    }
     console.log('Signing transaction...');
-    tx.sign(privateKey);
+    // tx.sign(privateKey);
+    const signedTx = await web3.eth.accounts.signTransaction(tx, account.privateKey);
     console.log('Sending transaction...');
-    var serializedTx = tx.serialize();
-    const pTx = await web3.eth.sendSignedTransaction(
-        "0x" + serializedTx.toString("hex").toString("hex")
-    );
+    // var serializedTx = tx.serialize();
+    const pTx = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
     console.log('tx transactionHash: ' + pTx.transactionHash);
     console.log('tx contractAddress: ', pTx.contractAddress);
 }
