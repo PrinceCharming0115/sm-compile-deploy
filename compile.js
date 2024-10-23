@@ -19,7 +19,7 @@ function compile(sourceCode, contractName) {
         sources: { main: { content: sourceCode } },
         settings: { 
             outputSelection: { "*": { "*": ["abi", "evm.bytecode"] } },
-            evmVersion: "byzantium"
+            evmVersion: "berlin"
         }
     };
 
