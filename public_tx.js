@@ -30,7 +30,7 @@ const deployContract = async () => {
     console.log('Creating transaction...');
     // const tx = new Tx(rawTxOptions);
     const tx = {
-        chainId: 1197,
+        chainId: 2001,
         ...rawTxOptions
     }
     console.log('Signing transaction...');
