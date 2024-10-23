@@ -5,7 +5,7 @@ const path = require('path');
 const host = "http://node-01.test.blockchain.dev.local:8545";
 const web3 = new Web3(host);
 
-const privateKey = "0xf63b82b1808bc6f068217ba91c0a331089110faad4f3aaa79e3c983f4e3dc258"
+const privateKey = "0x49f5221deb31fb8e474c1fb4850d3d4088c64384ffcdd4f97799b02a1a7dc839"
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 
 const checkSumStorageContractJSONPath = path.resolve(__dirname, "./artifact/ChecksumStorage.json");
@@ -22,7 +22,7 @@ const deployContract = async () => {
         value: "0x00",
         data: "0x" + checkSumStorageContractBin,
         gasPrice: "0x99",
-        gasLimit: "0x99922"
+        gasLimit: "0x9999999"
     }
     console.log('Signing transaction...');
     const signedTx = await web3.eth.accounts.signTransaction(tx, account.privateKey);
