@@ -15,32 +15,41 @@ const checkSumStorageContractBinPath = path.resolve(__dirname, "ChecksumStorage.
 const checkSumStorageContractBin = fs.readFileSync(checkSumStorageContractBinPath);
 
 const deployContract = async () => {
-    const txnCount = await web3.eth.getTransactionCount(account.address);
+    // const txnCount = await web3.eth.getTransactionCount(account.address);
+    // console.log('Creating transaction...');
+    // const tx = {
+    //     chainId: 2001,
+    //     once: txnCount,
+    //     from: account.address,
+    //     to: null,
+    //     value: "0x00",
+    //     data: "0x" + checkSumStorageContractBin + checkSumStorageContractConstructorInit,
+    //     gasPrice: "0x99",
+    //     gasLimit: "0x99922"
+    // }
+    // console.log('Signing transaction...');
+    // const signedTx = await web3.eth.accounts.signTransaction(tx, account.privateKey);
+    // console.log('Sending transaction...');
+    // const pTx = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+    // console.log('tx transactionHash: ' + pTx.transactionHash);
+    // console.log('tx contractAddress: ', pTx.contractAddress);
+    const bytecode = '0x' + checkSumStorageContractBin;
 
-    const rawTxOptions = {
-        nonce: web3.utils.numberToHex(txnCount),
-        from: account.address,
-        to: null,
-        value: "0x00",
-        data: "0x" + checkSumStorageContractBin,
-        gasPrice: "0x10",
-        gasLimit: "0x24A22"
-    };
+    const contract = new web3.eth.Contract(checkSumStorageContractAbi);
+    const deployTx = contract.deploy({
+        data: bytecode,
+        arguments: []
+    });
 
-    console.log('Creating transaction...');
-    // const tx = new Tx(rawTxOptions);
-    const tx = {
+    const deployedContract = await deployTx.send({
         chainId: 2001,
-        ...rawTxOptions
-    }
-    console.log('Signing transaction...');
-    // tx.sign(privateKey);
-    const signedTx = await web3.eth.accounts.signTransaction(tx, account.privateKey);
-    console.log('Sending transaction...');
-    // var serializedTx = tx.serialize();
-    const pTx = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-    console.log('tx transactionHash: ' + pTx.transactionHash);
-    console.log('tx contractAddress: ', pTx.contractAddress);
+        from: accounts[0],
+        to: null,
+        gasPrice: "0x99",
+        gasLimit: "0x99922"
+    });
+
+    console.log('Contract deployed at:', deployedContract.options.address);
 }
 
 deployContract().then(() => process.exit(0));
