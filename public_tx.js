@@ -1,4 +1,4 @@
-const Web3 = require('web3');
+const { Web3 } = require('web3');
 const fs = require('fs');
 const path = require('path');
 
@@ -8,7 +8,7 @@ const web3 = new Web3(host);
 const privateKey = "0xf63b82b1808bc6f068217ba91c0a331089110faad4f3aaa79e3c983f4e3dc258"
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 
-const checkSumStorageContractJSONPath = path.resolve(__dirname, "/artifact/ChecksumStorage.json");
+const checkSumStorageContractJSONPath = path.resolve(__dirname, "./artifact/ChecksumStorage.json");
 const checkSumStorageContractJSON = JSON.parse(fs.readFileSync(checkSumStorageContractJSONPath));
 const checkSumStorageContractAbi = checkSumStorageContractJSON.abi;
 const checkSumStorageContractBinPath = path.resolve(__dirname, "ChecksumStorage.bin");
