@@ -35,6 +35,8 @@ const deployContract = async () => {
     // console.log('tx contractAddress: ', pTx.contractAddress);
     const bytecode = '0x' + checkSumStorageContractBin;
 
+    const accounts = await web3.eth.getAccounts();
+
     const contract = new web3.eth.Contract(checkSumStorageContractAbi);
     const deployTx = contract.deploy({
         data: bytecode,
