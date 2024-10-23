@@ -17,7 +17,10 @@ function compile(sourceCode, contractName) {
     const input = {
         language: "Solidity",
         sources: { main: { content: sourceCode } },
-        settings: { outputSelection: { "*": { "*": ["abi", "evm.bytecode"] } } }
+        settings: { 
+            outputSelection: { "*": { "*": ["abi", "evm.bytecode"] } },
+            evmVersion: "berlin"
+        }
     };
 
     const output = solc.compile(JSON.stringify(input));
